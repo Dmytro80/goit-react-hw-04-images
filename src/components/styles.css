@@ -205,8 +205,3 @@ img {
 .Button:focus {
   background-color: #303f9f;
 }
-.x {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}

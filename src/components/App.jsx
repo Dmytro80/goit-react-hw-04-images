@@ -17,7 +17,7 @@ export class App extends Component {
   };
 
   async componentDidUpdate(_, prevState) {
-    const { page, query, counterHits, isLoading } = this.state;
+    const { page, query, counterHits } = this.state;
     if (prevState.page !== page || prevState.query !== query) {
       try {
         this.setState({ isLoading: true });
@@ -65,7 +65,7 @@ export class App extends Component {
       <AppContainer>
         <Searchbar onSubmitForm={this.formSubmitHandler} />
         {error && <Error>Invalid request, please try again</Error>}
-        <ImageGallery items={items} />
+        {items.length > 0 && <ImageGallery items={items} />}
         {isLoading && <Loader />}
         {items.length !== 0 && counterHits > 12 && (
           <Button onButtonClick={this.buttonClickHandler} />
