@@ -4,6 +4,7 @@ import { AppContainer, Error } from './App.styled';
 import { getPictures } from './api/Api';
 import ImageGallery from './imageGallery';
 import Button from './button';
+import Loader from './loader';
 
 export class App extends Component {
   state = {
@@ -12,15 +13,15 @@ export class App extends Component {
     query: '',
     error: false,
     counterHits: 0,
+    isLoading: false,
   };
 
   async componentDidUpdate(_, prevState) {
-    const { page, query, counterHits } = this.state;
+    const { page, query, counterHits, isLoading } = this.state;
     if (prevState.page !== page || prevState.query !== query) {
       try {
+        this.setState({ isLoading: true });
         const { hits, totalHits } = await getPictures(this.state);
-        console.log(hits);
-        console.log(totalHits);
 
         counterHits === 0 && this.setState({ counterHits: totalHits });
 
@@ -34,6 +35,8 @@ export class App extends Component {
         this.setState({
           error: true,
         });
+      } finally {
+        this.setState({ isLoading: false });
       }
     }
   }
@@ -45,6 +48,7 @@ export class App extends Component {
       query,
       error: false,
       counterHits: 0,
+      isLoading: false,
     });
   };
 
@@ -56,12 +60,13 @@ export class App extends Component {
   };
 
   render() {
-    const { error, items, counterHits } = this.state;
+    const { error, items, counterHits, isLoading } = this.state;
     return (
       <AppContainer>
         <Searchbar onSubmitForm={this.formSubmitHandler} />
         {error && <Error>Invalid request, please try again</Error>}
         <ImageGallery items={items} />
+        {isLoading && <Loader />}
         {items.length !== 0 && counterHits > 12 && (
           <Button onButtonClick={this.buttonClickHandler} />
         )}
