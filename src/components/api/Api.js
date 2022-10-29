@@ -13,5 +13,6 @@ export const getPictures = async ({ page, query, controller }) => {
     },
     signal: controller.signal,
   });
+
   return response.data;
 };
