@@ -2,14 +2,13 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ImageItem, Image } from './ImageGalleryItem.styled';
 import Modal from 'components/modal/Modal';
-import { useCallback } from 'react';
 
 const ImageGalleryItem = ({ image, tags, bigImage }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const toggleModal = useCallback(() => {
-    setShowModal(!showModal);
-  }, [showModal]);
+  function toggleModal() {
+    setShowModal(prevState => !prevState);
+  }
 
   return (
     <ImageItem>
