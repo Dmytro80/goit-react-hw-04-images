@@ -7,18 +7,20 @@ const modalRoot = document.querySelector('#modal-root');
 
 const Modal = ({ onCloseModal, modalImage, tags }) => {
   useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.code === 'Escape') {
+        onCloseModal();
+      }
+    }
+
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  });
 
-  function handleKeyDown(e) {
-    if (e.code === 'Escape') {
-      onCloseModal();
-    }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleBackdropClick(e) {
     if (e.target === e.currentTarget) {
